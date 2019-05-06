@@ -10,6 +10,8 @@ class Todo extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'description'], 'required'],
+            ['title','string','min'=>1,'max'=>255],
+            ['description','string','min'=>1,'max'=>255],
         ];
     }
 

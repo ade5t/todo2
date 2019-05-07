@@ -1,10 +1,9 @@
-mysql:
-  image: 'mysql:latest'
-  volumes:
-    - ./docker/dbdata:/var/lib/mysql
-  ports:
-    - '3306:3306'
-  restart: always
-  environment:
-    MYSQL_ROOT_PASSWORD: 2eed074d
-    MYSQL_DATABASE: heroku_2d97ff46f0227d4
+version: '2'
+services:
+  php:
+    image: yiisoftware/yii2-php:7.1-apache
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./:/app:delegated
+    ports:
+      - '8000:80'

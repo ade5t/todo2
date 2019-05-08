@@ -61,22 +61,25 @@ class SiteController extends Controller
 
     public function actionTodo()
     {
-        $todo_list = Todo::getAll();
-        $model_todo = new Todo();
+        if (!Yii::$app->user->isGuest) {
+            $todo_list = Todo::getAll();
+            $model_todo = new Todo();
 
-        if ($_POST['Create'])
-        {
-            $model_todo->title = $_POST['Todo']['title'];
-            $model_todo->description = $_POST['Todo']['description'];
-            $model_todo->id_user = Yii::$app->user->getId();
-            $model_todo->is_completed = false;
-            if ($model_todo->validate() && $model_todo->save())
-            {
-                return $this->redirect(['site/todo']);
+            if ($_POST['Create']) {
+                $model_todo->title = $_POST['Todo']['title'];
+                $model_todo->description = $_POST['Todo']['description'];
+                $model_todo->id_user = Yii::$app->user->getId();
+                $model_todo->is_completed = false;
+                if ($model_todo->validate() && $model_todo->save()) {
+                    return $this->redirect(['site/todo']);
+                }
             }
+            return $this->render('todo', ['model2' => $todo_list, 'model' => $model_todo]);
         }
-        return $this->render('todo', ['model2'=>$todo_list, 'model'=>$model_todo]);
+    else {
+        return $this->redirect(['site/index']);
     }
+}
 
     public function actionDelete($id){
         $model_delete = Todo::getOne($id);

@@ -8,7 +8,7 @@ return [
 //    'charset' => 'utf8',
 
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=us-cdbr-iron-east-02.cleardb.net;dbname=heroku_2d97ff46f0227d4',
+    'dsn' => 'mysql:host=us-cdbr-iron-east-02.cleardb.net:3306;dbname=heroku_2d97ff46f0227d4',
     'username' => 'b98ec447d03532',
     'password' => '2eed074d',
     'charset' => 'utf8',

@@ -61,17 +61,19 @@ class Join extends Model
                 ->send();
         }
         catch (\Exception $e){
-            Yii::$app->session->setFlash('error', "You cannot send an account verification email to this email.");
+            Yii::$app->session->setFlash('error', "Unable to send account verification email to this email.");
         }
-
         return true;
     }
 
     public function confirm($token){
         $user = $this->getUserByToken($token);
-        $user->email_confirm_token = '';
-        $user->status = 1;
-        return $user->save();
+        if ($user != null){
+            $user->email_confirm_token = '';
+            $user->status = 1;
+            return $user->save();
+        }
+        else return false;
     }
 
     public function getUser()

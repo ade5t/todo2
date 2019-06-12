@@ -6,6 +6,7 @@ use Yii;
 use app\models\Join;
 use app\models\Login;
 use app\models\Todo;
+use yii\helpers\Html;
 use yii\web\Controller;
 
 class SiteController extends Controller
@@ -23,11 +24,23 @@ class SiteController extends Controller
             if (isset($_POST['Join'])) {
                 $model_join->attributes = Yii::$app->request->post('Join');
                 if ($model_join->validate() && $model_join->signup()) {
-                    Yii::$app->user->login($model_join->getUser());
-                    return $this->redirect(['site/todo']);
+                    Yii::$app->session->setFlash('success', "An email has been sent to your email to confirm your account.");
                 }
             }
             return $this->render('join', ['model' => $model_join]);
+        } else return $this->redirect(['site/todo']);
+    }
+
+    public function actionActivation()
+    {
+        if (Yii::$app->user->isGuest) {
+            $token = Html::encode(Yii::$app->request->get('token'));
+            $model_join = new Join();
+            $model_login = $model_join->getUserByToken($token);
+            if ($model_join->confirm($token)) {
+                Yii::$app->user->login($model_login);
+            }
+            return $this->redirect(['site/todo']);
         } else return $this->redirect(['site/todo']);
     }
 

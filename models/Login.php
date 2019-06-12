@@ -6,14 +6,14 @@ use yii\base\Model;
 
 class Login extends Model
 {
-    public $login;
+    public $email;
     public $password;
 
     public function rules()
     {
         return [
-            [['login','password'],'required'],
-            ['login','string','min'=>5,'max'=>20],
+            [['email','password'],'required'],
+            ['email','email'],
             ['password','validatePassword'],
             ['password','string','min'=>5,'max'=>20]
         ];
@@ -25,16 +25,16 @@ class Login extends Model
         {
             $user = $this->getUser();
 
-            if(!$user || !$user->validatePassword($this->password))
+            if(!$user || !$user->validatePassword($this->password) || $user->status == 0)
             {
-                $this->addError($attribute, 'Wrong username or password');
+                $this->addError($attribute, 'Wrong email or password or account is not confirmed');
             }
         }
     }
 
     public  function getUser()
     {
-        return User::findOne(['login'=>$this->login]);
+        return User::findOne(['email'=>$this->email]);
     }
 
 }

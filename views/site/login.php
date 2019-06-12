@@ -6,7 +6,7 @@ use \yii\widgets\ActiveForm;
 $form = ActiveForm::begin(['class'=>'form-horizontal']);
 ?>
 
-<?= $form->field($model,'login')->textInput() ?>
+<?= $form->field($model,'email')->textInput() ?>
 
 
 <?= $form->field($model,'password')->passwordInput()?>

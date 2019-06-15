@@ -13,7 +13,7 @@ class m190611_232015_change_user_table extends Migration
     public function safeUp()
     {
         $this->renameColumn('{{%user}}', 'login', 'email');
-        $this->addColumn('{{%user}}', 'email_confirm_token', $this->string()->unique()->after('email'));
+        $this->addColumn('{{%user}}', 'email_confirm_token', $this->string()->after('email'));
         $this->addColumn('{{%user}}', 'status', $this->integer());
     }
 

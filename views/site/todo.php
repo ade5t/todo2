@@ -21,6 +21,7 @@ use yii\widgets\ActiveForm;
 <?php $form = ActiveForm::end(); ?>
 
 <script>
+    // Прослойка для вызова экшена из контроллера с передачей параметра
     function To_completed(id)
     {
         window.location.replace("completed/"+id);
@@ -37,6 +38,7 @@ use yii\widgets\ActiveForm;
     </tr>
     </thead>
     <tbody>
+<!--    Вывод на страницу таблицы со списков задач-->
     <?php foreach ($model2 as $item):?>
         <tr style= "background-color: <?php if ($item->is_completed): ?> #cfe8b7" <?php else: ?> #ffe8a1" <?php endif ?>>
             <td>

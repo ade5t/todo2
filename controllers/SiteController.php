@@ -6,6 +6,7 @@ use Yii;
 use app\models\Join;
 use app\models\Login;
 use app\models\Todo;
+use app\models\Login_vk;
 use yii\helpers\Html;
 use yii\web\Controller;
 
@@ -28,12 +29,16 @@ class SiteController extends Controller
                 }
             }
             return $this->render('join', ['model' => $model_join]);
-        } else return $this->redirect(['site/todo']);
+        } else {
+            return $this->redirect(['site/todo']);
+        }
     }
 
     public function actionActivation()
     {
         if (Yii::$app->user->isGuest) {
+//            Берем из URL email_confirm_token, а затем сверяем с таким же из БД для данного пользователя.
+//            Если совпадает, то меняем статус пользователя и авторизовываем, иначе отправляем на главную.
             $token = Html::encode(Yii::$app->request->get('token'));
             $model_join = new Join();
             $model_login = $model_join->getUserByToken($token);
@@ -63,6 +68,39 @@ class SiteController extends Controller
         else return $this->redirect(['site/todo']);
     }
 
+    public function actionLogin_vk(){
+        $model_login_vk = new Login_vk();
+
+        if(!$_GET['code']) {
+//            Отправляем запрос на авторизацию
+            return $this->redirect('https://oauth.vk.com/authorize?client_id=7021425&display=page&redirect_uri=http://todo2/site/login_vk&scope=email,offline&response_type=code&v=5.95');
+        }
+        elseif($_GET['code']) {
+//            Получаем access_token и парсим из него данные
+            $access_token = $model_login_vk->getAccessToken($_GET['code']);
+            $ob = json_decode($access_token);
+
+            if($ob->access_token) {
+//                Получаем id и email, если он привязан к аккаунту в VK (в противном случае оставляем пустым) и регистрируем новый аккаунт с этими данными.
+//                Затем авторизовываем нового пользователя.
+                $model_login_vk->user_id = $ob->user_id;
+                $model_login_vk->email = $ob->email? $ob->email : '';
+                if ($model_login_vk->signup_vk()){
+                    Yii::$app->user->login($model_login_vk->getUser());
+                    return $this->redirect(['site/todo']);
+                }
+            }
+            elseif($ob->error) {
+//                При возникновении ошибки отправляем на исходную страницу.
+                return $this->redirect(['site/login']);
+            }
+        }
+        elseif($_GET['error']) {
+//            При возникновении ошибки отправляем на исходную страницу.
+            return $this->redirect(['site/login']);
+        }
+    }
+
     public function actionLogout()
     {
         if (!Yii::$app->user->isGuest)
@@ -89,9 +127,7 @@ class SiteController extends Controller
             }
             return $this->render('todo', ['model2' => $todo_list, 'model' => $model_todo]);
         }
-    else {
-        return $this->redirect(['site/index']);
-    }
+    else return $this->redirect(['site/index']);
 }
 
     public function actionDelete($id){

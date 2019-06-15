@@ -28,6 +28,7 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
+//    Настройка верхней шапки для гостей и автрозованных пользователей
     NavBar::begin([
         'brandLabel' => 'ToDo',
         'brandUrl' => Yii::$app->homeUrl,
@@ -39,7 +40,8 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => Yii::$app->user->isGuest ? [
                 ['label' => 'Join', 'url' => ['/site/join']],
-            ['label' => 'Login', 'url' => ['/site/login']]
+            ['label' => 'Login', 'url' => ['/site/login']],
+            ['label' => 'Login with VK', 'url' => ['/site/login_vk']]
         ] : [
             ['label' => 'ToDoList', 'url' => ['/site/todo']],
             '<li>'

@@ -2,8 +2,8 @@
 
 namespace app\models;
 
+use Exception;
 use Yii;
-use yii\base\Exception;
 use yii\base\Model;
 use yii\helpers\Url;
 
@@ -24,14 +24,13 @@ class Join extends Model
 
     public function signup()
     {
+//        Заполняем все необходимые данные для регистрации пользователя.
         $user = new User();
         $user->email = $this->email;
         $user->status = 0;
-        try {
-            $user->email_confirm_token = Yii::$app->security->generateRandomString();
-        } catch (Exception $e) {
-        }
+        $user->email_confirm_token = uniqid();
         $user->setPassword($this->password);
+//        Затем пытаемся отправить письмо с подтверждением на указанный email. Если письмо отправлено, то заносим аккаунт в БД.
         if ($this->send_message($user->email, $user->email_confirm_token)){
             return $user->save();
         }
@@ -39,6 +38,7 @@ class Join extends Model
     }
 
     public function send_message($email, $token){
+//        Формируем само письмо.
         $absoluteHomeUrl = Url::home(true); //http://сайт
         $serverName = Yii::$app->request->serverName; //сайт без http
         $url = $absoluteHomeUrl.'activation/'.$token;
@@ -51,6 +51,7 @@ class Join extends Model
         $msg_html .= "<p><strong>To do this, follow the link: </strong><a href='". $url."'>$url</a></p>\r\n";
         $msg_html .= "</body></html>";
 
+//        Отправляем письмо на указанный адрес, в случае неудачи выводим сообщение.
         try{
             Yii::$app->mailer->compose()
                 ->setFrom('todo2.reg@yandex.ru')
@@ -60,15 +61,16 @@ class Join extends Model
                 ->setHtmlBody($msg_html)
                 ->send();
         }
-        catch (\Exception $e){
-            Yii::$app->session->setFlash('error', "Unable to send account verification email to this email.");
+        catch (Exception $e){
+            Yii::$app->session->setFlash('error', "Cannot send an account confirmation email to this email address. Try again.");
         }
         return true;
     }
 
     public function confirm($token){
+//        Меняем статус аккаунта на подтвержденный в случае перехода по ссылке в письме.
         $user = $this->getUserByToken($token);
-        if ($user != null){
+        if ($user){
             $user->email_confirm_token = '';
             $user->status = 1;
             return $user->save();

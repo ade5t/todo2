@@ -73,8 +73,6 @@ class SiteController extends Controller
     public function actionLogin_vk(){
         $model_login_vk = new Login_vk();
 
-        echo Yii::$app->getRequest()->serverName;
-
         if(!Yii::$app->request->get('code')
         ) {
 //            Отправляем запрос на авторизацию
@@ -125,7 +123,7 @@ class SiteController extends Controller
 //            при создании задачи. Так как если email отсутствует, то напоминание не придет, значит и время отображать не надо.
             $mail = User::findIdentity(Yii::$app->user->getId())->getEmail() == null? 0 : 1;
 
-            if ($_POST['Create']) {
+            if (Yii::$app->request->post('Create')) {
                 $model_todo->title = $_POST['Todo']['title'];
                 $model_todo->description = $_POST['Todo']['description'];
                 $model_todo->id_user = Yii::$app->user->getId();

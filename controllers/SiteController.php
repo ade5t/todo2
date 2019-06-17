@@ -73,6 +73,8 @@ class SiteController extends Controller
     public function actionLogin_vk(){
         $model_login_vk = new Login_vk();
 
+        echo Yii::$app->getRequest()->serverName;
+
         if(!Yii::$app->request->get('code')
         ) {
 //            Отправляем запрос на авторизацию

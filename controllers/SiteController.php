@@ -8,7 +8,6 @@ use app\models\Join;
 use app\models\Login;
 use app\models\Todo;
 use app\models\Login_vk;
-use yii\db\Query;
 use yii\helpers\Html;
 use yii\web\Controller;
 

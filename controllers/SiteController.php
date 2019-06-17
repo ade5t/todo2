@@ -73,7 +73,8 @@ class SiteController extends Controller
     public function actionLogin_vk(){
         $model_login_vk = new Login_vk();
 
-        if(isset($_GET['code'])) {
+        if(!Yii::$app->getRequest()->get('code')
+        ) {
 //            Отправляем запрос на авторизацию
             return $this->redirect('https://oauth.vk.com/authorize?client_id=7021425&display=page&redirect_uri=http://'.Yii::$app->getRequest()->serverName.'/site/login_vk&scope=email,offline&response_type=code&v=5.95');
         }

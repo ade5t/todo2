@@ -75,7 +75,7 @@ class SiteController extends Controller
 
         if(!$_GET['code']) {
 //            Отправляем запрос на авторизацию
-            return $this->redirect('https://oauth.vk.com/authorize?client_id=7021425&display=page&redirect_uri=http://todo2/site/login_vk&scope=email,offline&response_type=code&v=5.95');
+            return $this->redirect('https://oauth.vk.com/authorize?client_id=7021425&display=page&redirect_uri=http://'.Yii::$app->getRequest()->serverName.'/site/login_vk&scope=email,offline&response_type=code&v=5.95');
         }
         elseif($_GET['code']) {
 //            Получаем access_token и парсим из него данные

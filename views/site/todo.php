@@ -1,18 +1,39 @@
 <h1>ToDo List</h1>
 <?php
 
+use kartik\datetime\DateTimePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
 
 <?php $form = ActiveForm::begin(); ?>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
         <?= $form->field($model, 'title')->textInput() ?>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-5">
         <?= $form->field($model, 'description')->textInput() ?>
     </div>
+    <?php if ($is_mail): ?>
+    <div class="col-md-2">
+        <?= $form->field($model, 'date_time')->widget(DateTimePicker::className(),[
+            'name' => 'dp_5',
+            'type' => DateTimePicker::TYPE_BUTTON,
+            'value' => NULL,
+            'layout' => '{picker} {remove} {input}',
+            'options' => [
+                'type' => 'text',
+                'readonly' => true,
+                'class' => 'text-muted small',
+                'style' => 'border:none;background:none'
+            ],
+            'pluginOptions' => [
+                'format' => 'yyyy-mm-dd hh:ii',
+                'autoclose' => true
+            ]
+        ]) ?>
+    </div>
+    <?php endif ?>
     <div class="col-md-12">
         <?= Html::submitButton('Create task', ['name' => 'Create',
             'value' => 'Create', 'class'=>'btn brn-success']) ?>
@@ -47,9 +68,11 @@ use yii\widgets\ActiveForm;
             <?php if ($item->is_completed): ?>
                 <td><del><?=$item->title?></del></td>
                 <td><del><?=$item->description?></del></td>
+                <td><del><?= substr ($item->date_time,0, 16)?></del></td>
             <?php else: ?>
                 <td><?=$item->title?></td>
                 <td><?=$item->description?></td>
+                <td><?= substr ($item->date_time,0, 16)?></td>
             <?php endif ?>
             <td>
                 <a href="edit/<?=$item->id?>">Edit</a>

@@ -26,6 +26,23 @@ $config = [
             ],
         ],
         'db' => $db,
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@app/mail',
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.yandex.ru',
+                'username' => 'todo2.reg@yandex.ru',
+                'password' => 'todo2.reg2',
+                'port' => 465,
+                'encryption' => 'ssl',
+            ],
+            'useFileTransport' => false,
+            // send all mails to a file by default. You have to set
+            // 'useFileTransport' to false and configure a transport
+            // for the mailer to send real emails.
+            // 'useFileTransport' => true,
+        ],
     ],
     'params' => $params,
     /*

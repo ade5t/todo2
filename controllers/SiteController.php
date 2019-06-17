@@ -2,11 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\User;
 use Yii;
 use app\models\Join;
 use app\models\Login;
 use app\models\Todo;
 use app\models\Login_vk;
+use yii\db\Query;
 use yii\helpers\Html;
 use yii\web\Controller;
 
@@ -116,16 +118,22 @@ class SiteController extends Controller
             $todo_list = Todo::getAll();
             $model_todo = new Todo();
 
+//            Если у текущего авторизованного пользователя есть email в БД, то 1, иначе 0. Нужно для отображения(не отображения) поля даты
+//            при создании задачи. Так как если email отсутствует, то напоминание не придет, значит и время отображать не надо.
+            $mail = User::findIdentity(Yii::$app->user->getId())->getEmail() == null? 0 : 1;
+
             if ($_POST['Create']) {
                 $model_todo->title = $_POST['Todo']['title'];
                 $model_todo->description = $_POST['Todo']['description'];
                 $model_todo->id_user = Yii::$app->user->getId();
                 $model_todo->is_completed = false;
+                $model_todo->is_Send = false;
+                $model_todo->date_time = $_POST['Todo']['date_time'];
                 if ($model_todo->validate() && $model_todo->save()) {
                     return $this->redirect(['site/todo']);
                 }
             }
-            return $this->render('todo', ['model2' => $todo_list, 'model' => $model_todo]);
+            return $this->render('todo', ['model2' => $todo_list, 'model' => $model_todo, 'is_mail' => $mail]);
         }
     else return $this->redirect(['site/index']);
 }
@@ -150,16 +158,21 @@ class SiteController extends Controller
     public function actionEdit($id){
         $model_edit = Todo::getOne($id);
 
+//            Если у текущего авторизованного пользователя есть email в БД, то 1, иначе 0. Нужно для отображения(не отображения) поля даты
+//            при создании задачи. Так как если email отсутствует, то напоминание не придет, значит и время отображать не надо.
+        $mail = User::findIdentity(Yii::$app->user->getId())->getEmail() == null? 0 : 1;
+
         if ($_POST['Edit'])
         {
             $model_edit->title = $_POST['Todo']['title'];
             $model_edit->description = $_POST['Todo']['description'];
+            $model_edit->date_time = $_POST['Todo']['date_time'];
             if ($model_edit->validate() && $model_edit->save())
             {
                 return $this->redirect(['site/todo']);
             }
         }
-        return $this->render('edit', ['model'=>$model_edit]);
+        return $this->render('edit', ['model'=>$model_edit, 'is_mail' => $mail]);
     }
 
 }

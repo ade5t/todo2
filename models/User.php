@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
@@ -21,6 +22,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return self::findOne($id);
     }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
 
     public static function findIdentityByAccessToken($token, $type = null)
     {

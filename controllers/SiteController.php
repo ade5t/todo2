@@ -73,12 +73,11 @@ class SiteController extends Controller
     public function actionLogin_vk(){
         $model_login_vk = new Login_vk();
 
-        if(!Yii::$app->request->get('code')
-        ) {
+        if(!Yii::$app->request->get('code')) {
 //            Отправляем запрос на авторизацию
             return $this->redirect('https://oauth.vk.com/authorize?client_id=7021425&display=page&redirect_uri=http://'.Yii::$app->getRequest()->serverName.'/site/login_vk&scope=email,offline&response_type=code&v=5.95');
         }
-        elseif($_GET['code']) {
+        elseif(Yii::$app->request->get('code')) {
 //            Получаем access_token и парсим из него данные
             $access_token = $model_login_vk->getAccessToken($_GET['code']);
             $ob = json_decode($access_token);
@@ -98,7 +97,7 @@ class SiteController extends Controller
                 return $this->redirect(['site/login']);
             }
         }
-        elseif($_GET['error']) {
+        elseif(Yii::$app->request->get('error')) {
 //            При возникновении ошибки отправляем на исходную страницу.
             return $this->redirect(['site/login']);
         }
@@ -163,7 +162,7 @@ class SiteController extends Controller
 //            при создании задачи. Так как если email отсутствует, то напоминание не придет, значит и время отображать не надо.
         $mail = User::findIdentity(Yii::$app->user->getId())->getEmail() == null? 0 : 1;
 
-        if ($_POST['Edit'])
+        if (Yii::$app->request->post('Edit'))
         {
             $model_edit->title = $_POST['Todo']['title'];
             $model_edit->description = $_POST['Todo']['description'];

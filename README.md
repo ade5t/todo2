@@ -1,3 +1,4 @@
+Небольшой учебный проект, представляющий из себя список задач. Ознакомиться можно по ссылке: https://evening-caverns-73918.herokuapp.com/
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
         <img src="https://avatars0.githubusercontent.com/u/993323" height="100px">

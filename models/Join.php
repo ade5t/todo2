@@ -54,7 +54,7 @@ class Join extends Model
 //        Отправляем письмо на указанный адрес, в случае неудачи выводим сообщение.
         try{
             Yii::$app->mailer->compose()
-                ->setFrom('todo2.reg@yandex.ru')
+                ->setFrom('todo2.reg@mail.ru')
                 ->setTo($email)
                 ->setSubject('Verification')
                 ->setTextBody($msg)

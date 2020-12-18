@@ -34,7 +34,7 @@ $config = [
                 'host' => 'smtp.yandex.ru',
                 'username' => 'todo2.reg@yandex.ru',
                 'password' => 'todo2.reg2',
-                'port' => 587,
+                'port' => 465,
                 'encryption' => 'ssl',
             ],
             'useFileTransport' => false,

@@ -62,7 +62,7 @@ class Join extends Model
                 ->send();
         }
         catch (Exception $e){
-            Yii::$app->session->setFlash('error', $e);
+            Yii::$app->session->setFlash('error', $e[0]);
             return false;
         }
         return true;

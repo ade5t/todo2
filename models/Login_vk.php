@@ -44,7 +44,7 @@ class Login_vk extends Model
 
 //            был акк вк, чел заходит с вк с другим мылом
 //            надо обновить мыло
-            if ($user1["user_id"]->user_id and $user1["email"]->email and $user1["email"]->email != $this->email and $user1["user_id"]->user_id == $this->user_id){
+            if ($user1["user_id"]->vk_id and $user1["email"]->email and $user1["email"]->email != $this->email and $user1["user_id"]->vk_id == $this->user_id){
                 $user = $this->getUserByEmail();
                 $user->email = $this->email;
                 return $user->save();
@@ -52,13 +52,13 @@ class Login_vk extends Model
 
 //            был просто акк, чел заходит через вк
 //            просто пустить
-            else if ($user1["email"]->email and !$user1["user_id"]->user_id and $user1["email"]->email == $this->email){
+            else if ($user1["email"]->email and !$user1["user_id"]->vk_id and $user1["email"]->email == $this->email){
                 return true;
             }
 
 //            был акк вк, чел заходит с вк
 //            ок
-            else if ($user1["user_id"]->user_id and $user1["user_id"]->user_id == $this->user_id){
+            else if ($user1["user_id"]->vk_id and $user1["user_id"]->vk_id == $this->user_id){
                 return true;
             }
             

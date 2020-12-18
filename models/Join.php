@@ -56,7 +56,7 @@ class Join extends Model
             Yii::$app->mailer->compose()
                 ->setFrom('todo2.reg@yandex.ru')
                 ->setTo($email)
-                ->setSubject('Account Verification')
+                ->setSubject('Verification')
                 ->setTextBody($msg)
                 ->setHtmlBody($msg_html)
                 ->send();

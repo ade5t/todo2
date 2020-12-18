@@ -37,8 +37,6 @@ class Login_vk extends Model
 //            авторизовываем пользователя в контроллере, если же аккаунта с таким email нет, то обновляем БД, дописывая email
 //            к аккаунту пользователя и потом аторизовываем.
             $user = $this->getUserByVk_id();
-            echo $this->email;
-            echo $user->email;
             if ($user->email != $this->email){
                 if ($this->getUserByEmail()->email == ''){
                     $user->email = $this->email;

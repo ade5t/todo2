@@ -31,11 +31,11 @@ $config = [
             'viewPath' => '@app/mail',
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'ssl://smtp.yandex.ru',
+                'host' => 'smtp.yandex.ru',
                 'username' => 'todo2.reg@yandex.ru',
                 'password' => 'todo2.reg2',
-                'port' => 465,
-               // 'encryption' => 'ssl',
+                'port' => 587,
+                'encryption' => 'ssl',
             ],
             'useFileTransport' => false,
             // send all mails to a file by default. You have to set

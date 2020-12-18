@@ -37,27 +37,28 @@ class Login_vk extends Model
 //            авторизовываем пользователя в контроллере, если же аккаунта с таким email нет, то обновляем БД, дописывая email
 //            к аккаунту пользователя и потом аторизовываем.
             
-            $user = [
+            $user1 = [
                 'email' => $this->getUserByEmail(),
                 'user_id' => $this->getUserByVk_id(),
             ];
-            
+
 //            был акк вк, чел заходит с вк с другим мылом
 //            надо обновить мыло
-            if ($user->user_id and $user->email and $user->email != $this->email and $user->user_id == $this->user_id){
+            if ($user1["user_id"] and $user1["email"] and $user1["email"] != $this->email and $user1["user_id"] == $this->user_id){
+                $user = $this->getUserByEmail();
                 $user->email = $this->email;
                 return $user->save();
             }
-            
+
 //            был просто акк, чел заходит через вк
 //            просто пустить
-            else if ($user->email and !$user->user_id and $user->email == $this->email){
+            else if ($user1["email"] and !$user1["user_id"] and $user1["email"] == $this->email){
                 return true;
             }
 
 //            был акк вк, чел заходит с вк
 //            ок
-            else if ($user->user_id and $user->user_id == $this->user_id){
+            else if ($user1["user_id"] and $user1["user_id"] == $this->user_id){
                 return true;
             }
             

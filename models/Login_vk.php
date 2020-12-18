@@ -20,7 +20,6 @@ class Login_vk extends Model
 
     public function signup_vk()
     {
-        echo "1";
         if ($this->validation()){
 //            Если пользователь не зарегестрирован, то заносим его данные в БД и авторизовываем в контроллере
             $user = new User();
@@ -37,13 +36,39 @@ class Login_vk extends Model
 //            Если не совпадает, то проверяем, есть ли уже в БД аккаунты с email, который передал VK. Если есть, то просто
 //            авторизовываем пользователя в контроллере, если же аккаунта с таким email нет, то обновляем БД, дописывая email
 //            к аккаунту пользователя и потом аторизовываем.
-            $user = $this->getUserByVk_id();
-            if ($user->email != $this->email){
-                if ($this->getUserByEmail()->email == ''){
-                    $user->email = $this->email;
-                    return $user->save();
-                }
+            
+            $user = [
+                'email' => $this->getUserByEmail(),
+                'user_id' => $this->getUserByVk_id(),
+            ];
+            
+//            был акк вк, чел заходит с вк с другим мылом
+//            надо обновить мыло
+            if ($user->user_id and $user->email and $user->email != $this->email and $user->user_id == $this->user_id){
+                $user->email = $this->email;
+                return $user->save();
             }
+            
+//            был просто акк, чел заходит через вк
+//            просто пустить
+            else if ($user->email and !$user->user_id and $user->email == $this->email){
+                return true;
+            }
+
+//            был акк вк, чел заходит с вк
+//            ок
+            else if ($user->user_id and $user->user_id == $this->user_id){
+                return true;
+            }
+            
+            
+//            $user = $this->getUserByVk_id();
+//            if ($user->email != $this->email){
+//                if ($this->getUserByEmail()->email == ''){
+//                    $user->email = $this->email;
+//                    return $user->save();
+//                }
+//            }
         }
         return true;
     }

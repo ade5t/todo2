@@ -62,7 +62,7 @@ class Join extends Model
                 ->send();
         }
         catch (Exception $e){
-            Yii::$app->session->setFlash('error', "Cannot send an account confirmation email to this email address. Try again.");
+            Yii::$app->session->setFlash('error', $e);
             return false;
         }
         return true;

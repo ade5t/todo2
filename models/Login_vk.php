@@ -20,6 +20,7 @@ class Login_vk extends Model
 
     public function signup_vk()
     {
+        echo "1";
         if ($this->validation()){
 //            Если пользователь не зарегестрирован, то заносим его данные в БД и авторизовываем в контроллере
             $user = new User();
@@ -36,7 +37,6 @@ class Login_vk extends Model
 //            Если не совпадает, то проверяем, есть ли уже в БД аккаунты с email, который передал VK. Если есть, то просто
 //            авторизовываем пользователя в контроллере, если же аккаунта с таким email нет, то обновляем БД, дописывая email
 //            к аккаунту пользователя и потом аторизовываем.
-            echo "1";
             $user = $this->getUserByVk_id();
             if ($user->email != $this->email){
                 if ($this->getUserByEmail()->email == ''){

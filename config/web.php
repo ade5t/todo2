@@ -43,11 +43,11 @@ $config = [
                 //'port' => 465,
                 //'encryption' => 'ssl',
                 
-                'host' => '	connect.smtp.bz',
-                'username' => 'paloya4555@febeks.com',
-                'password' => '	Sf1McJl0VxTj',
-                'port' => 465,
-                'encryption' => 'ssl',
+                'host' => 'smtp.sibnet.ru',
+                'username' => 'todo2@sibnet.ru',
+                'password' => '12213.reg2',
+                'port' => 25,
+                'encryption' => 'STARTTLS',
             ],
             'useFileTransport' => false,
             // send all mails to a file by default. You have to set

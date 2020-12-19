@@ -43,11 +43,11 @@ $config = [
                 //'port' => 465,
                 //'encryption' => 'ssl',
                 
-                'host' => 'smtp.sibnet.ru',
-                'username' => 'todo2@sibnet.ru',
-                'password' => '12213.reg2',
-                'port' => 25,
-                'encryption' => 'tls',
+                'host' => 'smtp.rambler.ru',
+                'username' => 'todo_reg@ro.ru',
+                'password' => '12213reg2dF',
+                'port' => 465,
+                'encryption' => 'ssl',
             ],
             'useFileTransport' => false,
             // send all mails to a file by default. You have to set

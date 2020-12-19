@@ -46,7 +46,7 @@ class Join extends Model
         $msg = "Hello! Thank you for using the site $serverName! You only need to confirm your email. To do this, follow the link: $url";
 
         $msg_html  = "<html><body style='font-family:Arial,sans-serif;'>";
-        $msg_html .= "<h2 style='font-weight:bold;border-bottom:1px dotted #ccc;'>Hello! Thank you for using the site <a href='". $absoluteHomeUrl ."'>$serverName</a></h2>\r\n";
+        $msg_html .= "<h2 style='font-weight:bold;border-bottom:1px dotted #ccc;'>Hello! Thank you for using the site!</h2>\r\n";
         $msg_html .= "<p><strong>You only need to confirm your email.</strong></p>\r\n";
         $msg_html .= "<p><strong>To do this, follow the link: </strong><a href='". $url."'>$url</a></p>\r\n";
         $msg_html .= "</body></html>";
@@ -54,7 +54,7 @@ class Join extends Model
 //        Отправляем письмо на указанный адрес, в случае неудачи выводим сообщение.
         try{
             Yii::$app->mailer->compose()
-                ->setFrom('todo2@sibnet.ru')
+                ->setFrom('todo_reg@ro.ru')
                 ->setTo($email)
                 ->setSubject('Verification')
                 ->setTextBody($msg)

@@ -47,7 +47,7 @@ $config = [
                 'username' => 'todo2@sibnet.ru',
                 'password' => '12213.reg2',
                 'port' => 25,
-                'encryption' => 'STARTTLS',
+                'encryption' => 'tls',
             ],
             'useFileTransport' => false,
             // send all mails to a file by default. You have to set
